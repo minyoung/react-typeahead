@@ -48,6 +48,10 @@ var TypeaheadTokenizer = React.createClass({
       React.PropTypes.string,
       React.PropTypes.func
     ]),
+    formInputOption: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.func
+    ]),
     maxVisible: React.PropTypes.number,
     defaultClassNames: React.PropTypes.bool
   },
@@ -103,11 +107,13 @@ var TypeaheadTokenizer = React.createClass({
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
     var classList = classNames(tokenClasses);
     var result = this.state.selected.map(function(selected) {
+      var value = this.props.formInputOption(selected);
       var displayString = this.props.displayOption(selected);
       return (
         <Token key={ displayString } className={classList}
           onRemove={ this._removeTokenForValue }
           object={selected}
+          value={value}
           name={ this.props.name }>
           { displayString }
         </Token>
